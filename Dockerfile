@@ -67,16 +67,10 @@ VOLUME [ "/opt/system/tmp/cache/", \
          "/opt/system/public/assets", \
          "/root/.jspm", "/home/ruby/.luarocks" ]
 
-ADD . ./
-ADD config/examples/*.yml config/
-# Needed for Sphinx ODBC
-ADD config/oracle/odbc*.ini /etc/
-
 ENTRYPOINT ["xvfb-run", "--server-args", "-screen 0 1280x1024x24"]
 CMD ["script/jenkins.sh"]
 
 # Oracle special, this needs Oracle to be present in vendor/oracle
-ADD vendor/oracle/* /opt/oracle/
 RUN if [ "${DB}" = "oracle" ]; then unzip /opt/oracle/instantclient-basiclite-linux.x64-12.2.0.1.0.zip -d /opt/oracle/ \
  && unzip /opt/oracle/instantclient-sdk-linux.x64-12.2.0.1.0.zip -d /opt/oracle/ \
  && unzip /opt/oracle/instantclient-odbc-linux.x64-12.2.0.1.0-2.zip -d /opt/oracle/ \
