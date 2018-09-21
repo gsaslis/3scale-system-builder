@@ -67,7 +67,10 @@ VOLUME [ "/opt/system/tmp/cache/", \
          "/opt/system/public/assets", \
          "/root/.jspm", "/home/ruby/.luarocks" ]
 
-ENTRYPOINT ["xvfb-run", "--server-args", "-screen 0 1280x1024x24"]
+ADD https://raw.githubusercontent.com/cjpetrus/alpine_webkit2png/master/xvfb-run /usr/bin/xvfb-run
+RUN chmod +x /usr/bin/xvfb-run
+ENTRYPOINT ["/usr/bin/xvfb-run", "--server-args", "-screen 0 1280x1024x24"]
+
 CMD ["script/jenkins.sh"]
 
 # Oracle special, this needs Oracle to be present in vendor/oracle
