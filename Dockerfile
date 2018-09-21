@@ -35,6 +35,7 @@ RUN apk update \
             squid \
             yarn \
             libaio \
+            bash \
  && sed --in-place "s/databases 16/databases 32/" /etc/redis.conf \
  && echo 'dns_nameservers 8.8.8.8 8.8.4.4' >> /etc/squid.conf
 
