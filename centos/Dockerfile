@@ -130,8 +130,9 @@ the image size as small as possible."
 
 #EXPOSE 8080
 
-ENV RUBY_VERSION 2.3.7
-ENV BUNDLER_VERSION 1.16.5
+ENV RUBY_VERSION="2.3.7" \
+    BUNDLER_VERSION="1.16.5" \
+    HOME="/home/ruby"
 
 #ENV SUMMARY="Platform for building and running Ruby $RUBY_VERSION applications" \
 #    DESCRIPTION="Ruby $RUBY_VERSION available as container is a base platform for \
@@ -173,38 +174,42 @@ ENV BUNDLER_VERSION 1.16.5
 #CMD $STI_SCRIPTS_PATH/usage
 
 
-ENV HOME=/home/ruby
-ENV PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:$HOME/.rbenv/versions/$RUBY_VERSION/bin:$PATH"
+ENV PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:$HOME/.rbenv/versions/$RUBY_VERSION/bin:./node_modules/.bin:$PATH" \
+    DISPLAY=:99.0 \
+    SKIP_ASSETS="1" \
+    DNSMASQ="#" \
+    RAILS_ENV=test \
+    BUNDLE_FROZEN=1 \
+    TZ=:/etc/localtime \
+    LD_LIBRARY_PATH=/opt/oracle/instantclient_12_2/ \
+    ORACLE_HOME=/opt/oracle/instantclient_12_2/ \
+    DB=$DB \
+    QMAKE=/usr/bin/qmake-qt5
 
 # rbenv-installer deps
 RUN yum install -y git \
                    bzip2 \
                    which \
-   && curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash
-
+                   openssl-devel \
+                   readline-devel \
+                   zlib-devel \
+                   gcc \
+                   gcc-c++ \
+                   make \
+ && curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash \
 # rbenv deps
-RUN yum install -y openssl-devel \
-               readline-devel \
-               zlib-devel \
-               gcc \
-               gcc-c++ \
-               make \
  && rbenv install $RUBY_VERSION \
  && rbenv global $RUBY_VERSION \
  && adduser --home ${HOME} --comment "" ruby \
- && echo --color > /.rspec > ${HOME}/.rspec
-
-RUN  eval "$(rbenv init -)" \
+ && echo --color > /.rspec > ${HOME}/.rspec \
+ && eval "$(rbenv init -)" \
  && gem update --system --no-document \
  && bundle config --global without development \
  && bundle config --global jobs `grep -c processor /proc/cpuinfo` \
  && bundle config --global cache_all true \
- && chown ruby -R ${HOME}/.bundle
-
-ENV DISPLAY=:99.0
-
+ && chown ruby -R ${HOME}/.bundle \
 # various system deps
-RUN yum install -y epel-release \
+ && yum install -y epel-release \
  && yum install -y redis \
                    mysql-devel \
                    Xvfb \
@@ -220,12 +225,9 @@ RUN yum install -y epel-release \
                    openssl-devel \
                    nodejs \
                    squid \
-                   libaio
-
-ENV QMAKE=/usr/bin/qmake-qt5
-
+                   libaio \
 # sphinx deps + installation
-RUN yum install -y postgresql-libs \
+                   postgresql-libs \
                    unixODBC \
   && yum clean all -y \
   && curl http://sphinxsearch.com/files/sphinx-2.2.11-1.rhel7.x86_64.rpm > /tmp/sphinx-2.2.11-1.rhel7.x86_64.rpm \
@@ -239,16 +241,6 @@ ADD https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver
 RUN tar -xzvf /tmp/geckodriver.tar.gz -C /usr/local/bin/ && rm -rf /tmp/geckodriver.tar.gz
 
 ARG DB=mysql
-
-ENV PATH="./node_modules/.bin:$PATH" \
-    SKIP_ASSETS="1" \
-    DNSMASQ="#" \
-    RAILS_ENV=test \
-    BUNDLE_FROZEN=1 \
-    TZ=:/etc/localtime \
-    LD_LIBRARY_PATH=/opt/oracle/instantclient_12_2/ \
-    ORACLE_HOME=/opt/oracle/instantclient_12_2/ \
-    DB=$DB
 
 WORKDIR /opt/system/
 
