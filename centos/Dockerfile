@@ -187,7 +187,6 @@ RUN yum install -y openssl-devel \
                readline-devel \
                zlib-devel \
                gcc \
-               g++ \
                gcc-c++ \
                make \
  && rbenv install $RUBY_VERSION \
@@ -210,7 +209,7 @@ RUN yum install -y epel-release \
                    mysql-devel \
                    Xvfb \
                    firefox \
-                   qt-devel \
+                   qt5-qtwebkit-devel \
                    libicu \
                    unzip \
                    memcached \
@@ -219,6 +218,8 @@ RUN yum install -y epel-release \
                    ImageMagick-devel \
                    pcre-devel \
                    openssl-devel
+
+ENV QMAKE=$(which qmake-qt5)
 
 # sphinx deps + installation
 RUN yum install -y postgresql-libs \
