@@ -217,7 +217,10 @@ RUN yum install -y epel-release \
                    ImageMagick \
                    ImageMagick-devel \
                    pcre-devel \
-                   openssl-devel
+                   openssl-devel \
+                   nodejs \
+                   squid \
+                   libaio
 
 ENV QMAKE=/usr/bin/qmake-qt5
 
@@ -227,4 +230,47 @@ RUN yum install -y postgresql-libs \
   && yum clean all -y \
   && curl http://sphinxsearch.com/files/sphinx-2.2.11-1.rhel7.x86_64.rpm > /tmp/sphinx-2.2.11-1.rhel7.x86_64.rpm \
   && yum install -y /tmp/sphinx-2.2.11-1.rhel7.x86_64.rpm \
-  && sed --in-place "s/databases 16/databases 32/" /etc/redis.conf
+  && sed --in-place "s/databases 16/databases 32/" /etc/redis.conf \
+  && echo 'dns_nameservers 8.8.8.8 8.8.4.4' >> /etc/squid.conf \
+  && npm install yarn -g
+
+
+ADD https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-linux64.tar.gz /tmp/geckodriver.tar.gz
+RUN tar -xzvf /tmp/geckodriver.tar.gz -C /usr/local/bin/ && rm -rf /tmp/geckodriver.tar.gz
+
+ARG DB=mysql
+
+ENV PATH="./node_modules/.bin:$PATH" \
+    SKIP_ASSETS="1" \
+    DNSMASQ="#" \
+    RAILS_ENV=test \
+    BUNDLE_FROZEN=1 \
+    TZ=:/etc/localtime \
+    LD_LIBRARY_PATH=/opt/oracle/instantclient_12_2/ \
+    ORACLE_HOME=/opt/oracle/instantclient_12_2/ \
+    DB=$DB
+
+WORKDIR /opt/system/
+
+# Code Climate test reporter
+ADD https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 ./tmp/cc-test-reporter
+RUN chmod +x ./tmp/cc-test-reporter
+
+VOLUME [ "/opt/system/tmp/cache/", \
+         "/opt/system/vendor/bundle", \
+         "/opt/system/node_modules", \
+         "/opt/system/assets/jspm_packages", \
+         "/opt/system/public/assets", \
+         "/root/.jspm", "/home/ruby/.luarocks" ]
+
+ENTRYPOINT ["/usr/bin/xvfb-run", "--server-args", "-screen 0 1280x1024x24"]
+
+CMD ["script/jenkins.sh"]
+
+# Oracle special, this needs Oracle to be present in vendor/oracle
+RUN if [ "${DB}" = "oracle" ]; then unzip /opt/oracle/instantclient-basiclite-linux.x64-12.2.0.1.0.zip -d /opt/oracle/ \
+ && unzip /opt/oracle/instantclient-sdk-linux.x64-12.2.0.1.0.zip -d /opt/oracle/ \
+ && unzip /opt/oracle/instantclient-odbc-linux.x64-12.2.0.1.0-2.zip -d /opt/oracle/ \
+ && (cd /opt/oracle/instantclient_12_2/ && ln -s libclntsh.so.12.1 libclntsh.so) \
+ && rm -rf /opt/system/vendor/oracle \
+ && rm -rf /opt/oracle/*.zip; fi
