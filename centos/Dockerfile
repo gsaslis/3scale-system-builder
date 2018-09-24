@@ -234,7 +234,8 @@ RUN yum install -y git \
   && yum install -y /tmp/sphinx-2.2.11-1.rhel7.x86_64.rpm \
   && sed --in-place "s/databases 16/databases 32/" /etc/redis.conf \
   && echo 'dns_nameservers 8.8.8.8 8.8.4.4' >> /etc/squid.conf \
-  && npm install yarn -g
+  && npm install yarn -g \
+  && ln -s /usr/bin/g++ /usr/bin/g++-4.8
 
 
 ADD https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-linux64.tar.gz /tmp/geckodriver.tar.gz
