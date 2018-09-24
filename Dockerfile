@@ -30,8 +30,7 @@ RUN apk update \
             pcre-dev \
             libressl-dev \
             git \
-            make \
-            gcc \
+            build-base \
             nodejs \
             squid \
             yarn \
