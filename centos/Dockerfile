@@ -219,7 +219,7 @@ RUN yum install -y epel-release \
                    pcre-devel \
                    openssl-devel
 
-ENV QMAKE="$(which qmake-qt5)"
+ENV QMAKE=/usr/bin/qmake-qt5
 
 # sphinx deps + installation
 RUN yum install -y postgresql-libs \
