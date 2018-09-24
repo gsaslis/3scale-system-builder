@@ -25,13 +25,12 @@ RUN apk update \
             memcached \
             sphinx \
             dnsmasq \
-            imagemagick \
-            imagemagick-dev \
+            imagemagick6 \
+            imagemagick6-dev \
             pcre-dev \
             libressl-dev \
             git \
-            make \
-            gcc \
+            build-base \
             nodejs \
             squid \
             yarn \
