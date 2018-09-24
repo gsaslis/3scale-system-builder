@@ -31,6 +31,7 @@ RUN apk update \
             libressl-dev \
             git \
             make \
+            gcc \
             nodejs \
             squid \
             yarn \
