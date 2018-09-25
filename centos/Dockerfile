@@ -132,7 +132,10 @@ the image size as small as possible."
 
 ENV RUBY_VERSION="2.3.7" \
     BUNDLER_VERSION="1.16.5" \
-    HOME="/home/ruby"
+    HOME="/home/ruby" \
+    OPENRESTY_VERSION=1.11.2.1 \
+    LUAROCKS_VERSION=2.3.0
+
 
 #ENV SUMMARY="Platform for building and running Ruby $RUBY_VERSION applications" \
 #    DESCRIPTION="Ruby $RUBY_VERSION available as container is a base platform for \
@@ -174,7 +177,7 @@ ENV RUBY_VERSION="2.3.7" \
 #CMD $STI_SCRIPTS_PATH/usage
 
 
-ENV PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:$HOME/.rbenv/versions/$RUBY_VERSION/bin:./node_modules/.bin:$PATH" \
+ENV PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:$HOME/.rbenv/versions/$RUBY_VERSION/bin:./node_modules/.bin:$PATH:/usr/local/nginx/sbin/:/usr/local/luajit/bin/" \
     DISPLAY=:99.0 \
     SKIP_ASSETS="1" \
     DNSMASQ="#" \
@@ -266,3 +269,20 @@ RUN if [ "${DB}" = "oracle" ]; then unzip /opt/oracle/instantclient-basiclite-li
  && (cd /opt/oracle/instantclient_12_2/ && ln -s libclntsh.so.12.1 libclntsh.so) \
  && rm -rf /opt/system/vendor/oracle \
  && rm -rf /opt/oracle/*.zip; fi
+
+ADD http://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz /tmp/openresty.tar.gz
+ADD https://github.com/keplerproject/luarocks/archive/v${LUAROCKS_VERSION}.tar.gz /tmp/luarocks.tar.gz
+
+RUN tar xzf /tmp/openresty.tar.gz -C /tmp/ \
+ && cd /tmp/openresty-${OPENRESTY_VERSION} \
+ && ./configure --with-pcre --prefix=/usr/local \
+ && make -j`grep -c processor /proc/cpuinfo` && make install \
+ && ln -sf /usr/local/luajit/bin/luajit-* /usr/local/luajit/bin/luajit \
+ && ln -sf /usr/local/luajit/include/luajit-* /usr/local/luajit/include/lua5.1 \
+ && rm -r /tmp/openresty-${OPENRESTY_VERSION} \
+ && tar xzf /tmp/luarocks.tar.gz -C /tmp/ \
+ && cd /tmp/luarocks-${LUAROCKS_VERSION} \
+ && ./configure --prefix=/usr/local/luajit --with-lua=/usr/local/luajit \
+    --with-lua-lib=/usr/local/lualib --lua-version=5.1 --lua-suffix=jit \
+ && make build && make install \
+ && rm -rf /tmp/luarocks-${LUAROCKS_VERSION}
