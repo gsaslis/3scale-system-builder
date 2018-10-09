@@ -22,6 +22,7 @@ ENV PATH="./node_modules/.bin:$PATH:/usr/local/nginx/sbin/:/usr/local/luajit/bin
 RUN echo --color > ~/.rspec \
 # enables SCL collections, so that we can use bundler
  && source $ENV \
+ && gem install bundler --version 1.16.2 --no-doc \
  && bundle config --global without development \
  && bundle config --global cache_all true
 
