@@ -66,7 +66,8 @@ RUN yum install -y epel-release \
   && echo 'dns_nameservers 8.8.8.8 8.8.4.4' >> /etc/squid.conf
 
 RUN source $ENV \
- && npm install yarn -g
+ && npm install yarn -g \
+ && rm -rf ~/.npm ~/.config
 
 
 ADD https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-linux64.tar.gz /tmp/geckodriver.tar.gz
