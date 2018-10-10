@@ -88,10 +88,6 @@ VOLUME [ "/opt/system/tmp/cache/", \
          "/opt/system/public/assets", \
          "/root/.jspm", "/home/ruby/.luarocks" ]
 
-ENTRYPOINT ["container-entrypoint", "/usr/bin/xvfb-run", "--server-args='-screen 0 1280x1024x24'"]
-
-CMD ["script/jenkins.sh"]
-
 # Oracle special, this needs Oracle to be present in vendor/oracle
 RUN if [ "${DB}" = "oracle" ]; then unzip /opt/oracle/instantclient-basiclite-linux.x64-12.2.0.1.0.zip -d /opt/oracle/ \
  && unzip /opt/oracle/instantclient-sdk-linux.x64-12.2.0.1.0.zip -d /opt/oracle/ \
@@ -119,3 +115,7 @@ RUN if [ "${DB}" = "oracle" ]; then unzip /opt/oracle/instantclient-basiclite-li
 # && rm -rf /tmp/luarocks-${LUAROCKS_VERSION}
 
 USER default
+
+ENTRYPOINT ["container-entrypoint", "/usr/bin/xvfb-run", "-s", "-screen 0 1280x1024x24"]
+
+CMD ["script/jenkins.sh"]
