@@ -11,3 +11,4 @@ test:
 	docker run --rm $(IMAGE_NAME) ruby -v
 	docker run --rm $(IMAGE_NAME) node -v
 	docker run --rm $(IMAGE_NAME) bundle -v
+	docker run --rm $(IMAGE_NAME) sh -c 'sudo ls -al /root'

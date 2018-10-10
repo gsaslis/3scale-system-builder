@@ -37,7 +37,9 @@ RUN yum install -y git \
                    zlib-devel \
                    gcc \
                    gcc-c++ \
-                   make
+                   make \
+                   sudo \
+ && echo 'default        ALL=(ALL)       NOPASSWD: ALL' >> /etc/sudoers
 
 
 # various system deps
