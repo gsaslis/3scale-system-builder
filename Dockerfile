@@ -118,6 +118,8 @@ RUN if [ "${DB}" = "oracle" ]; then unzip /opt/oracle/instantclient-basiclite-li
 
 USER default
 
+# circleci overrides entrypoint by default
+LABEL com.circleci.preserve-entrypoint=true
 ENTRYPOINT ["container-entrypoint", "/usr/bin/xvfb-run", "-s", "-screen 0 1280x1024x24"]
 
 CMD ["script/jenkins.sh"]
