@@ -1,4 +1,4 @@
-FROM centos/ruby-23-centos7
+FROM centos/ruby-24-centos7
 
 ENV RUBY_VERSION="2.3.7" \
     BUNDLER_VERSION="1.16.5" \
