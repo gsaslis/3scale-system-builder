@@ -88,7 +88,7 @@ VOLUME [ "/opt/system/tmp/cache/", \
          "/opt/system/public/assets", \
          "/root/.jspm", "/home/ruby/.luarocks" ]
 
-ENTRYPOINT ["container-entrypoint", "/usr/bin/xvfb-run", "--server-args", "-screen 0 1280x1024x24"]
+ENTRYPOINT ["container-entrypoint", "/usr/bin/xvfb-run", "--server-args='-screen 0 1280x1024x24'"]
 
 CMD ["script/jenkins.sh"]
 
