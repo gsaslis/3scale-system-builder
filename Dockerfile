@@ -1,7 +1,7 @@
 FROM centos/ruby-23-centos7
 
 ENV RUBY_VERSION="2.3.7" \
-    BUNDLER_VERSION="1.16.5" \
+    BUNDLER_VERSION="1.16.6" \
     OPENRESTY_VERSION=1.11.2.1 \
     LUAROCKS_VERSION=2.3.0
 
@@ -21,7 +21,7 @@ ENV PATH="./node_modules/.bin:$PATH:/usr/local/nginx/sbin/:/usr/local/luajit/bin
 RUN echo --color > ~/.rspec \
 # enables SCL collections, so that we can use bundler
  && source $ENV \
- && gem install bundler --version 1.16.2 --no-doc
+ && gem install bundler --version ${BUNDLER_VERSION} --no-doc
 
 USER root
 
