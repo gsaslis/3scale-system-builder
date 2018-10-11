@@ -12,7 +12,6 @@ ENV PATH="./node_modules/.bin:$PATH:/usr/local/nginx/sbin/:/usr/local/luajit/bin
     SKIP_ASSETS="1" \
     DNSMASQ="#" \
     RAILS_ENV=test \
-    BUNDLE_FROZEN=1 \
     TZ=:/etc/localtime \
     LD_LIBRARY_PATH=/opt/oracle/instantclient_12_2/ \
     ORACLE_HOME=/opt/oracle/instantclient_12_2/ \
@@ -22,9 +21,7 @@ ENV PATH="./node_modules/.bin:$PATH:/usr/local/nginx/sbin/:/usr/local/luajit/bin
 RUN echo --color > ~/.rspec \
 # enables SCL collections, so that we can use bundler
  && source $ENV \
- && gem install bundler --version 1.16.2 --no-doc \
- && bundle config --global without development \
- && bundle config --global cache_all true
+ && gem install bundler --version 1.16.2 --no-doc
 
 USER root
 
