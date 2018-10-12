@@ -85,7 +85,9 @@ VOLUME [ "/opt/system/tmp/cache/", \
          "/opt/system/node_modules", \
          "/opt/system/assets/jspm_packages", \
          "/opt/system/public/assets", \
-         "/root/.jspm", "/home/ruby/.luarocks" ]
+         "/root/.jspm", \
+         "/home/ruby/.luarocks" \
+       ]
 
 # Oracle special, this needs Oracle to be present in vendor/oracle
 RUN if [ "${DB}" = "oracle" ]; then unzip /opt/oracle/instantclient-basiclite-linux.x64-12.2.0.1.0.zip -d /opt/oracle/ \
