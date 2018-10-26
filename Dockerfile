@@ -76,9 +76,14 @@ RUN tar -xzvf /tmp/geckodriver.tar.gz -C /usr/local/bin/ && rm -rf /tmp/geckodri
 
 WORKDIR /opt/system/
 
-# Code Climate test reporter
-ADD https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 ./tmp/cc-test-reporter
-RUN chmod +x ./tmp/cc-test-reporter
+RUN mkdir -p  /opt/system/tmp/cache/ \
+              /opt/system/vendor/bundle \
+              /opt/system/node_modules \
+              /opt/system/assets/jspm_packages \
+              /opt/system/public/assets \
+              /root/.jspm \
+              /home/ruby/.luarocks \
+ && chown -R default /opt/system
 
 VOLUME [ "/opt/system/tmp/cache/", \
          "/opt/system/vendor/bundle", \
