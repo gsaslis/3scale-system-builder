@@ -83,6 +83,8 @@ RUN mkdir -p  /opt/system/tmp/cache/ \
               /opt/system/public/assets \
               /root/.jspm \
               /home/ruby/.luarocks \
+ && groupadd --gid 1042 3scale-dev \
+ && usermod -aG 1042 default \
  && chown -R default /opt/system
 
 VOLUME [ "/opt/system/tmp/cache/", \
