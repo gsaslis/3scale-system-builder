@@ -96,14 +96,6 @@ VOLUME [ "/opt/system/tmp/cache/", \
          "/home/ruby/.luarocks" \
        ]
 
-# Oracle special, this needs Oracle to be present in vendor/oracle
-RUN if [ "${DB}" = "oracle" ]; then unzip /opt/oracle/instantclient-basiclite-linux.x64-12.2.0.1.0.zip -d /opt/oracle/ \
- && unzip /opt/oracle/instantclient-sdk-linux.x64-12.2.0.1.0.zip -d /opt/oracle/ \
- && unzip /opt/oracle/instantclient-odbc-linux.x64-12.2.0.1.0-2.zip -d /opt/oracle/ \
- && (cd /opt/oracle/instantclient_12_2/ && ln -s libclntsh.so.12.1 libclntsh.so) \
- && rm -rf /opt/system/vendor/oracle \
- && rm -rf /opt/oracle/*.zip; fi
-
 #
 #ADD http://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz /tmp/openresty.tar.gz
 #ADD https://github.com/keplerproject/luarocks/archive/v${LUAROCKS_VERSION}.tar.gz /tmp/luarocks.tar.gz
