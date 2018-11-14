@@ -56,6 +56,7 @@ RUN yum install -y epel-release \
                    openssl-devel \
                    squid \
                    libaio \
+                   dbus \
 # sphinx deps + installation
                    postgresql-libs \
                    unixODBC \
@@ -95,6 +96,8 @@ VOLUME [ "/opt/system/tmp/cache/", \
          "/root/.jspm", \
          "/home/ruby/.luarocks" \
        ]
+
+RUN dbus-uuidgen | sudo tee -a /etc/machine-id
 
 #
 #ADD http://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz /tmp/openresty.tar.gz
