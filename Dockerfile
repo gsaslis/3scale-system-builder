@@ -56,6 +56,7 @@ RUN yum install -y epel-release \
                    openssl-devel \
                    squid \
                    libaio \
+                   dbus \
 # sphinx deps + installation
                    postgresql-libs \
                    unixODBC \
@@ -85,6 +86,7 @@ RUN mkdir -p  /opt/system/tmp/cache/ \
               /home/ruby/.luarocks \
  && groupadd --gid 1042 3scale-dev \
  && usermod -aG 1042 default \
+ && dbus-uuidgen | sudo tee -a /etc/machine-id \
  && chown -R default /opt/system
 
 VOLUME [ "/opt/system/tmp/cache/", \
