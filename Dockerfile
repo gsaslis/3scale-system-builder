@@ -86,6 +86,7 @@ RUN mkdir -p  /opt/system/tmp/cache/ \
               /home/ruby/.luarocks \
  && groupadd --gid 1042 3scale-dev \
  && usermod -aG 1042 default \
+ && dbus-uuidgen | sudo tee -a /etc/machine-id \
  && chown -R default /opt/system
 
 VOLUME [ "/opt/system/tmp/cache/", \
@@ -96,8 +97,6 @@ VOLUME [ "/opt/system/tmp/cache/", \
          "/root/.jspm", \
          "/home/ruby/.luarocks" \
        ]
-
-RUN dbus-uuidgen | sudo tee -a /etc/machine-id
 
 #
 #ADD http://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz /tmp/openresty.tar.gz
