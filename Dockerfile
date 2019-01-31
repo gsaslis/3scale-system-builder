@@ -10,7 +10,6 @@ ARG DB=mysql
 ENV PATH="./node_modules/.bin:$PATH:/usr/local/nginx/sbin/:/usr/local/luajit/bin/" \
     DISPLAY=:99.0 \
     SKIP_ASSETS="1" \
-    DNSMASQ="#" \
     RAILS_ENV=test \
     TZ=:/etc/localtime \
     LD_LIBRARY_PATH=/opt/oracle/instantclient_12_2/ \
@@ -41,20 +40,16 @@ RUN yum install -y git \
 
 # various system deps
 RUN yum install -y epel-release \
- && yum install -y redis \
-                   mysql-devel \
+ && yum install -y mysql-devel \
                    Xvfb \
                    firefox \
                    qt5-qtwebkit-devel \
                    libicu \
                    unzip \
-                   memcached \
-                   dnsmasq \
                    ImageMagick \
                    ImageMagick-devel \
                    pcre-devel \
                    openssl-devel \
-                   squid \
                    libaio \
                    dbus \
 # sphinx deps + installation
@@ -62,9 +57,7 @@ RUN yum install -y epel-release \
                    unixODBC \
   && yum clean all -y \
   && curl http://sphinxsearch.com/files/sphinx-2.2.11-1.rhel7.x86_64.rpm > /tmp/sphinx-2.2.11-1.rhel7.x86_64.rpm \
-  && yum install -y /tmp/sphinx-2.2.11-1.rhel7.x86_64.rpm \
-  && sed --in-place "s/databases 16/databases 32/" /etc/redis.conf \
-  && echo 'dns_nameservers 8.8.8.8 8.8.4.4' >> /etc/squid.conf
+  && yum install -y /tmp/sphinx-2.2.11-1.rhel7.x86_64.rpm
 
 RUN source $ENV \
  && npm install yarn -g \
