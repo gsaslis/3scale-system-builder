@@ -1,6 +1,6 @@
-FROM centos/ruby-23-centos7
+FROM centos/ruby-24-centos7
 
-ENV RUBY_VERSION="2.3.7" \
+ENV RUBY_VERSION="2.4.5" \
     BUNDLER_VERSION="1.17.3" \
     OPENRESTY_VERSION=1.11.2.1 \
     LUAROCKS_VERSION=2.3.0
