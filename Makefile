@@ -1,4 +1,4 @@
-IMAGE_NAME = quay.io/gsaslis/3scale-system-builder
+IMAGE_NAME = quay.io/3scale/system-builder
 
 all: build test
 

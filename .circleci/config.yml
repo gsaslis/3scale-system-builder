@@ -1,0 +1,18 @@
+version: 2.1
+
+jobs:
+  docker-build:
+    resource_class: small
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Build & Test image
+          command: |
+            make all
+
+workflows:
+  version: 2.1
+  ci_build:
+    jobs:
+      - docker-build
