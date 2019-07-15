@@ -72,7 +72,7 @@ gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' \
 
 
 RUN source $ENV \
- && npm install yarn -g \
+ && npm install npm@^6.9.0 -g \
  && rm -rf ~/.npm ~/.config
 
 ADD https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-linux64.tar.gz /tmp/geckodriver.tar.gz
