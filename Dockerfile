@@ -1,9 +1,9 @@
-FROM centos/ruby-23-centos7
+FROM centos/ruby-24-centos7
 
-ENV RUBY_VERSION="2.3.7" \
-    BUNDLER_VERSION="1.17.3" \
+ENV BUNDLER_VERSION="1.17.3" \
     OPENRESTY_VERSION=1.11.2.1 \
-    LUAROCKS_VERSION=2.3.0
+    LUAROCKS_VERSION=2.3.0 \
+    NODEJS_SCL=rh-nodejs8
 
 ARG DB=mysql
 
@@ -15,11 +15,6 @@ ENV PATH="./node_modules/.bin:$PATH:/usr/local/nginx/sbin/:/usr/local/luajit/bin
     LD_LIBRARY_PATH=/opt/oracle/instantclient_12_2/ \
     ORACLE_HOME=/opt/oracle/instantclient_12_2/ \
     DB=$DB
-
-RUN echo --color > ~/.rspec \
-# enables SCL collections, so that we can use bundler
- && source $ENV \
- && gem install bundler --version ${BUNDLER_VERSION} --no-doc
 
 USER root
 
@@ -34,7 +29,13 @@ RUN yum install -y git \
                    gcc-c++ \
                    make \
                    sudo \
+                   rh-nodejs8 \
  && echo 'default        ALL=(ALL)       NOPASSWD: ALL' >> /etc/sudoers
+
+RUN echo --color > ~/.rspec \
+# enables SCL collections, so that we can use bundler
+ && source $ENV \
+ && gem install bundler --version ${BUNDLER_VERSION} --no-doc
 
 
 # various system deps
