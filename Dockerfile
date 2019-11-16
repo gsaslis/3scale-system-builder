@@ -60,6 +60,8 @@ gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' \
                    dbus \
                    postgresql-libs \
                    unixODBC \
+                   urw-fonts \
+  && yum update -y \
   && yum clean all -y \
   && curl http://sphinxsearch.com/files/sphinx-2.2.11-1.rhel7.x86_64.rpm > /tmp/sphinx-2.2.11-1.rhel7.x86_64.rpm \
   && yum install -y /tmp/sphinx-2.2.11-1.rhel7.x86_64.rpm \
