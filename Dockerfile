@@ -60,7 +60,9 @@ gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' \
                    dbus \
                    postgresql-libs \
                    unixODBC \
-                   urw-fonts \
+  && wget http://mirror.centos.org/centos/7/os/x86_64/Packages/urw-fonts-2.4-16.el7.noarch.rpm \
+  && rpm -ivh --nodeps urw-fonts-2.4-16.el7.noarch.rpm \
+  && rm urw-fonts-2.4-16.el7.noarch.rpm  \
   && yum update -y \
   && yum clean all -y \
   && curl http://sphinxsearch.com/files/sphinx-2.2.11-1.rhel7.x86_64.rpm > /tmp/sphinx-2.2.11-1.rhel7.x86_64.rpm \
