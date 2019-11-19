@@ -2,7 +2,7 @@ version: 2.1
 
 jobs:
   docker-build:
-    resource_class: small
+    resource_class: medium
     machine: true
     steps:
       - checkout
