@@ -30,6 +30,7 @@ RUN yum install -y git \
                    make \
                    sudo \
                    rh-nodejs8 \
+                   file \
  && echo 'default        ALL=(ALL)       NOPASSWD: ALL' >> /etc/sudoers
 
 RUN echo --color > ~/.rspec \
