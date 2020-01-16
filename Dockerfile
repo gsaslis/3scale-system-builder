@@ -10,7 +10,6 @@ ARG DB=mysql
 ENV PATH="./node_modules/.bin:$PATH:/usr/local/nginx/sbin/:/usr/local/luajit/bin/" \
     DISPLAY=:99.0 \
     SKIP_ASSETS="1" \
-    RAILS_ENV=test \
     TZ=:/etc/localtime \
     LD_LIBRARY_PATH=/opt/oracle/instantclient_12_2/ \
     ORACLE_HOME=/opt/oracle/instantclient_12_2/ \
@@ -110,5 +109,3 @@ VOLUME [ "/opt/system/tmp/cache/", \
 USER default
 
 ENTRYPOINT ["container-entrypoint"]
-
-CMD ["script/jenkins.sh"]
