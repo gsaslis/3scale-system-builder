@@ -1,4 +1,4 @@
-FROM centos/ruby-24-centos7
+FROM centos/ruby-25-centos7
 
 ENV BUNDLER_VERSION="1.17.3" \
     OPENRESTY_VERSION=1.11.2.1 \
@@ -10,7 +10,6 @@ ARG DB=mysql
 ENV PATH="./node_modules/.bin:$PATH:/usr/local/nginx/sbin/:/usr/local/luajit/bin/" \
     DISPLAY=:99.0 \
     SKIP_ASSETS="1" \
-    RAILS_ENV=test \
     TZ=:/etc/localtime \
     LD_LIBRARY_PATH=/opt/oracle/instantclient_12_2/ \
     ORACLE_HOME=/opt/oracle/instantclient_12_2/ \
@@ -30,6 +29,7 @@ RUN yum install -y git \
                    make \
                    sudo \
                    rh-nodejs8 \
+                   file \
  && echo 'default        ALL=(ALL)       NOPASSWD: ALL' >> /etc/sudoers
 
 RUN echo --color > ~/.rspec \
@@ -109,5 +109,3 @@ VOLUME [ "/opt/system/tmp/cache/", \
 USER default
 
 ENTRYPOINT ["container-entrypoint"]
-
-CMD ["script/jenkins.sh"]
