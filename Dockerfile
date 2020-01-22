@@ -3,7 +3,7 @@ FROM centos/ruby-25-centos7
 ENV BUNDLER_VERSION="1.17.3" \
     OPENRESTY_VERSION=1.11.2.1 \
     LUAROCKS_VERSION=2.3.0 \
-    NODEJS_SCL=rh-nodejs8
+    NODEJS_SCL=rh-nodejs10
 
 ARG DB=mysql
 
@@ -28,7 +28,7 @@ RUN yum install -y git \
                    gcc-c++ \
                    make \
                    sudo \
-                   rh-nodejs8 \
+                   rh-nodejs10 \
                    file \
  && echo 'default        ALL=(ALL)       NOPASSWD: ALL' >> /etc/sudoers
 
