@@ -11,8 +11,8 @@ ENV PATH="./node_modules/.bin:$PATH:/usr/local/nginx/sbin/:/usr/local/luajit/bin
     DISPLAY=:99.0 \
     SKIP_ASSETS="1" \
     TZ=:/etc/localtime \
-    LD_LIBRARY_PATH=/opt/oracle/instantclient_12_2/ \
-    ORACLE_HOME=/opt/oracle/instantclient_12_2/ \
+    LD_LIBRARY_PATH=/opt/oracle/instantclient/ \
+    ORACLE_HOME=/opt/oracle/instantclient/ \
     DB=$DB
 
 USER root
