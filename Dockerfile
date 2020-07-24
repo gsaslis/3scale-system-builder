@@ -67,7 +67,8 @@ gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' \
   && yum clean all -y \
   && curl http://sphinxsearch.com/files/sphinx-2.2.11-1.rhel7.x86_64.rpm > /tmp/sphinx-2.2.11-1.rhel7.x86_64.rpm \
   && yum install -y /tmp/sphinx-2.2.11-1.rhel7.x86_64.rpm \
-  && wget -N https://chromedriver.storage.googleapis.com/$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip -P /tmp \
+  && CHROME_VERSION=$(google-chrome --version | sed -e "s|[^0-9]*\([0-9]\+\).*|\1|") \
+  && wget -N https://chromedriver.storage.googleapis.com/$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION})/chromedriver_linux64.zip -P /tmp \
   && unzip /tmp/chromedriver_linux64.zip -d /tmp \
   && rm /tmp/chromedriver_linux64.zip \
   && mv -f /tmp/chromedriver /usr/local/bin/chromedriver \
