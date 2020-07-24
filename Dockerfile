@@ -78,10 +78,10 @@ gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' \
 
 RUN source $ENV \
  && npm install yarn -g \
- && rm -rf ~/.npm ~/.config
-
-ADD https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-linux64.tar.gz /tmp/geckodriver.tar.gz
-RUN tar -xzvf /tmp/geckodriver.tar.gz -C /usr/local/bin/ && rm -rf /tmp/geckodriver.tar.gz
+ && rm -rf ~/.npm ~/.config \
+ && url=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | python -c "import sys, json; print(next(item['browser_download_url'] for item in json.load(sys.stdin)['assets'] if 'linux64' in item.get('browser_download_url', '')))") \
+ && wget "$url" -O /tmp/geckodriver.tar.gz \
+ && tar -xzvf /tmp/geckodriver.tar.gz -C /usr/local/bin/ && rm -rf /tmp/geckodriver.tar.gz
 
 WORKDIR /opt/system/
 
