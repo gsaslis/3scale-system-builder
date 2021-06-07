@@ -48,7 +48,7 @@ gpgcheck=1\n\
 gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' \
  > /etc/yum.repos.d/google-chrome.repo \
   && yum install -y epel-release \
-  && yum install -y mysql-devel \
+  && yum install -y rh-mysql80-devel \
                    firefox \
                    google-chrome-stable \
                    unzip \
