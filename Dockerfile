@@ -1,4 +1,4 @@
-FROM centos/ruby-25-centos7
+FROM quay.io/centos7/ruby-25-centos7
 
 ENV BUNDLER_VERSION="1.17.3" \
     OPENRESTY_VERSION=1.11.2.1 \
@@ -48,7 +48,8 @@ gpgcheck=1\n\
 gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' \
  > /etc/yum.repos.d/google-chrome.repo \
   && yum install -y epel-release \
-  && yum install -y mysql-devel \
+  && yum install -y rh-mysql80-mysql-devel \
+                   rh-mysql80-mysql-config \
                    firefox \
                    google-chrome-stable \
                    unzip \
