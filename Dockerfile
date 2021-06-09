@@ -47,6 +47,7 @@ enabled=1\n\
 gpgcheck=1\n\
 gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' \
  > /etc/yum.repos.d/google-chrome.repo \
+  && yum-config-manager  --setopt=skip_missing_names_on_install=False --save \
   && yum install -y epel-release \
   && yum install -y mysql-devel \
                    firefox \
