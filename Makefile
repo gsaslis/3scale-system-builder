@@ -8,7 +8,7 @@ build: Dockerfile
 test:
 #	docker run --user root --rm $(IMAGE_NAME) sh -c 'echo $$HOME | grep '
 #	docker run --rm $(IMAGE_NAME) sh -c 'echo $$HOME | grep /ruby'
-	docker run --rm $(IMAGE_NAME) ruby -v | grep 2.5
+	docker run --rm $(IMAGE_NAME) ruby -v | grep 2.6
 	docker run --rm $(IMAGE_NAME) node -v
 	docker run --rm $(IMAGE_NAME) bundle -v
 	docker run --rm $(IMAGE_NAME) sh -c 'sudo ls -al /root'
