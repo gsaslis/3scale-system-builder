@@ -37,7 +37,6 @@ RUN echo --color > ~/.rspec \
  && source $ENV \
  && gem install bundler --version ${BUNDLER_VERSION} --no-doc
 
-
 # various system deps
 RUN echo $'\n\
 [google-chrome]\n\
@@ -48,6 +47,9 @@ gpgcheck=1\n\
 gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' \
  > /etc/yum.repos.d/google-chrome.repo \
   && yum-config-manager  --setopt=skip_missing_names_on_install=False --save \
+  && rpm -Uvh https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm \
+  && yum update -y \
+  && yum remove -y postgresql \
   && yum install -y epel-release \
   && yum install -y mysql-devel \
                    firefox \
@@ -59,7 +61,7 @@ gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' \
                    openssl-devel \
                    libaio \
                    dbus \
-                   postgresql-libs \
+                   postgresql10 postgresql10-devel postgresql10-libs \
                    unixODBC \
                    libatomic \
   && wget http://mirror.centos.org/centos/7/os/x86_64/Packages/urw-fonts-2.4-16.el7.noarch.rpm \
@@ -75,9 +77,8 @@ gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' \
   && rm /tmp/chromedriver_linux64.zip \
   && mv -f /tmp/chromedriver /usr/local/bin/chromedriver \
   && chown root:root /usr/local/bin/chromedriver \
-  && chmod 0755 /usr/local/bin/chromedriver
-
-
+  && chmod 0755 /usr/local/bin/chromedriver \
+  && bundle config build.pg --with-pg-config=/usr/pgsql-10/bin/pg_config
 
 RUN source $ENV \
  && npm install yarn -g \
