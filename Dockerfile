@@ -77,8 +77,9 @@ gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' \
   && rm /tmp/chromedriver_linux64.zip \
   && mv -f /tmp/chromedriver /usr/local/bin/chromedriver \
   && chown root:root /usr/local/bin/chromedriver \
-  && chmod 0755 /usr/local/bin/chromedriver \
-  && bundle config build.pg --with-pg-config=/usr/pgsql-10/bin/pg_config
+  && chmod 0755 /usr/local/bin/chromedriver
+
+ENV PATH="$PATH:/usr/pgsql-10/bin"
 
 RUN source $ENV \
  && npm install yarn -g \
